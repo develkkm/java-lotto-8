@@ -14,7 +14,7 @@ public class InputConverter {
     private void validateNumberFormat(String input) {
         Matcher matcher = NUMBER_PATTERN.matcher(input);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("정수만 입력 가능합니다.");
+            throw new IllegalArgumentException("입력 형식이 잘못 됐습니다.");
         }
     }
 
@@ -22,7 +22,7 @@ public class InputConverter {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자가 너무 큽니다.");
+            throw new IllegalArgumentException("허용 범위를 넘어갔습니다.");
         }
     }
 }
