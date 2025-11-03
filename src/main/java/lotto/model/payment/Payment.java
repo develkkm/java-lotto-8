@@ -1,4 +1,4 @@
-package lotto.model;
+package lotto.model.payment;
 
 public class Payment {
     public static final int LOTTO_PRICE = 1000;
@@ -33,5 +33,9 @@ public class Payment {
 
     public int getLottoAmount(){
         return money / LOTTO_PRICE;
+    }
+
+    public int getMoney(){
+        return money;
     }
 }
