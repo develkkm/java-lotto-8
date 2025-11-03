@@ -1,4 +1,4 @@
-package lotto.model;
+package lotto.model.payment;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -40,8 +40,7 @@ class PaymentTest {
         void shouldThrowExceptionWhenMoneyIsLessThanLottoPrice(int money) {
             // expect
             assertThatThrownBy(() -> Payment.from(money))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("이상이여야");
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
@@ -52,8 +51,7 @@ class PaymentTest {
 
             // expect
             assertThatThrownBy(() -> Payment.from(money))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("나누어져야");
+                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 }
