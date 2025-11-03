@@ -1,24 +1,37 @@
 package lotto.view;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InputConverter {
     private static final Pattern NUMBER_PATTERN = Pattern.compile("^[1-9][0-9]*$");
+    private static final String WINNING_NUMBER_DELIMITER = ",";
 
-    public int convertPayment(String input) {
-        validateNumberFormat(input);
-        return parseToInt(input);
+    public int parseValidatedNumber(String input) {
+        validateNumericFormat(input);
+        return parseIntSafely(input);
     }
 
-    private void validateNumberFormat(String input) {
+    public List<Integer> parseValidatedNumbers(String input) {
+        return Arrays.stream(input.split(WINNING_NUMBER_DELIMITER))
+                .map(String::trim)
+                .map(num -> {
+                    validateNumericFormat(num);
+                    return parseIntSafely(num);
+                })
+                .toList();
+    }
+
+    private void validateNumericFormat(String input) {
         Matcher matcher = NUMBER_PATTERN.matcher(input);
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("입력 형식이 잘못 됐습니다.");
+            throw new IllegalArgumentException("입력 형식이 잘못됐습니다.");
         }
     }
 
-    private int parseToInt(String input) {
+    private int parseIntSafely(String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
@@ -26,4 +39,3 @@ public class InputConverter {
         }
     }
 }
-
