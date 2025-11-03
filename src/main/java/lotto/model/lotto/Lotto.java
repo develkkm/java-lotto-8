@@ -1,4 +1,4 @@
-package lotto.model;
+package lotto.model.lotto;
 
 import java.util.HashSet;
 import java.util.List;
@@ -12,7 +12,9 @@ public class Lotto {
 
     private Lotto(List<Integer> numbers) {
         validate(numbers);
-        this.numbers = numbers;
+        this.numbers = numbers.stream()
+                .sorted()
+                .toList();
     }
 
     public static Lotto of(List<Integer> numbers){
@@ -44,7 +46,7 @@ public class Lotto {
 
     private void validateLottoSize(List<Integer> numbers) {
         if (numbers.size() != LOTTO_NUMBER_SIZE) {
-            throw new IllegalArgumentException("[ERROR] 로또 번호는" + LOTTO_NUMBER_SIZE + "개여야 합니다.");
+            throw new IllegalArgumentException("로또 번호는" + LOTTO_NUMBER_SIZE + " 개여야 합니다.");
         }
     }
 
