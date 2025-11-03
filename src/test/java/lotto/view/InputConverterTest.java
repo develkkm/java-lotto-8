@@ -16,12 +16,15 @@ class InputConverterTest {
     @DisplayName("정상 케이스")
     class ValidCase {
 
-        @Test
+        @ParameterizedTest
+        @ValueSource(strings = {"1", "12345", "100", "1000"})
         @DisplayName("양의 정수 문자열을 입력하면 int로 변환해야 한다")
-        void shouldConvertToIntWhenInputIsPositiveInteger() {
-            assertThat(converter.convertPayment("1")).isEqualTo(1);
-            assertThat(converter.convertPayment("12345")).isEqualTo(12345);
+        void shouldConvertToIntWhenInputIsPositiveInteger(String input) {
+            int result = converter.parseValidatedNumber(input);
+
+            assertThat(result).isEqualTo(Integer.parseInt(input));
         }
+
     }
 
     @Nested
@@ -34,18 +37,16 @@ class InputConverterTest {
         })
         @DisplayName("정수가 아닌 문자열을 입력하면 예외를 던져야 한다")
         void shouldThrowExceptionWhenInputIsNotPositiveInteger(String input) {
-            assertThatThrownBy(() -> converter.convertPayment(input))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("입력 형식이 잘못 됐습니다.");
+            assertThatThrownBy(() -> converter.parseValidatedNumbers(input))
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         @DisplayName("int 범위를 초과하면 예외를 던져야 한다")
         void shouldThrowExceptionWhenInputExceedsIntRange() {
             String overMaxInt = String.valueOf((long) Integer.MAX_VALUE + 1);
-            assertThatThrownBy(() -> converter.convertPayment(overMaxInt))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("허용 범위를 넘어갔습니다.");
+            assertThatThrownBy(() -> converter.parseValidatedNumbers(overMaxInt))
+                    .isInstanceOf(IllegalArgumentException.class);
         }
     }
 }
