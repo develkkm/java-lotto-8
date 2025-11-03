@@ -3,6 +3,9 @@ package lotto.model;
 import java.util.List;
 import java.util.stream.IntStream;
 import lotto.model.generator.LottoNumberGenerator;
+import lotto.model.lotto.Lotto;
+import lotto.model.lotto.Lottos;
+import lotto.model.payment.Payment;
 
 public class LottoShop {
     private final LottoNumberGenerator generator;
@@ -11,13 +14,14 @@ public class LottoShop {
         this.generator = generator;
     }
 
-    public static LottoShop of(LottoNumberGenerator generator) {
+    public static LottoShop using(LottoNumberGenerator generator) {
         return new LottoShop(generator);
     }
 
-    public List<Lotto> sell(Payment payment) {
+    public Lottos sell(Payment payment) {
         int lottoAmount = payment.getLottoAmount();
-        return generateLottos(lottoAmount);
+        List<Lotto> issuedLottos = generateLottos(lottoAmount);
+        return Lottos.from(issuedLottos);
     }
 
     private List<Lotto> generateLottos(int amount) {
